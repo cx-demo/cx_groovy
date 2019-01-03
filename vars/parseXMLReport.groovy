@@ -14,7 +14,7 @@ def call(String txt = null) {
   //Get Scan Details (Results, Languages, Queries)
   xmlNode.'Query'.each { query ->
     query.'Result'.each { result ->
-      severityVal = result.@Severity
+      severityVal = result.@'Severity'
       switch(severityVal) {
         case "High":
           high++
