@@ -12,15 +12,14 @@ def call(String reportFileUrl = null) {
   def xmlfile = new File(reportFileUrl);
   def doc = new XmlSlurper(false, false, true).parse(xmlfile)
   echo 'Start transforming XML'
-  
+
 try {
   //Get Scan Details (Results, Languages, Queries)
   doc.Query.each { query ->
     println "query index: ${query.@QueryPath}"
     query.Result.each { result ->
       println "severity index: ${result.@Severity}"
-/*
-      switch(severityVal) {
+      switch( ${result.@Severity} ) {
         case "High":
           highs++
           break
@@ -33,10 +32,7 @@ try {
         case "Info"
           infos++
           break
-
-        default:
       }
-      */
     }
 
   }
