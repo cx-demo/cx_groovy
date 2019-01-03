@@ -23,13 +23,13 @@ try {
         case "High":
           highs++
           break
-        case "Medium"
+        case "Medium":
           mediums++
           break
-        case "Low"
+        case "Low":
           lows++
           break
-        case "Info"
+        case "Info":
           infos++
           break
       }
