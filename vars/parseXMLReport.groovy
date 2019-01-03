@@ -8,6 +8,7 @@ def call(String txt = null) {
   int lows = 0
   int infos = 0
 
+try {
   def doc = new XmlSlurper(false, false).parse(txt)
   echo 'Start transforming XML'
 
@@ -37,6 +38,12 @@ def call(String txt = null) {
     }
     */
   }
+
+} catch(Exception ex) {
+  println(ex.toString());
+  println(ex.getMessage());
+  println(ex.getStackTrace());
+}
   [highs: highs, mediums: mediums, lows: lows, infos:infos]
 
 }
