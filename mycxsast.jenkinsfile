@@ -20,12 +20,12 @@ pipeline {
     }
     stage('preparation') {
       steps {
-          echo ${params.GIT_URL}
-          echo ${params.GIT_JENKINS_CREDS}
+          echo "${params.GIT_URL}"
+          echo "${params.GIT_JENKINS_CREDS}"
           echo "Get some code from an SCM"
           checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false,
-            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '${params.GIT_JENKINS_CREDS}',
-            url: '${params.GIT_URL}']]])
+            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${params.GIT_JENKINS_CREDS}",
+            url: "${params.GIT_URL}"]]])
       }
     }
     stage('checkmarx') {
@@ -60,11 +60,11 @@ pipeline {
           groupId: '00000000-1111-1111-b111-989c9070eb11',
           includeOpenSourceFolders: '',
           osaEnabled: false,
-          username: '${CX_CREDS_USR}',
-          password: '${CX_CREDS_PSW}',
+          username: "${CX_CREDS_USR}",
+          password: "${CX_CREDS_PSW}",
           preset: '36',
-          projectName: ${params.CX_PROJECT_NAME},
-          serverUrl: ${params.CX_SERVER_URL},
+          projectName: "${params.CX_PROJECT_NAME}",
+          serverUrl: "${params.CX_SERVER_URL}",
           sourceEncoding: '1',
           waitForResultsEnabled: true,
           vulnerabilityThresholdResult: 'FAILURE',
