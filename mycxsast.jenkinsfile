@@ -18,10 +18,23 @@ pipeline {
         deleteDir() /* Clean up our workspace */
       }
     }
+    stage('print') {
+        // Print build number and workspace
+        steps {
+            echo "Build ${BUILD_NUMBER} - in the Workspace of [${WORKSPACE}]!"
+            script {
+                if(isUnix()) {
+                    sh "ls -lahR ${WORKSPACE} "
+                    sh "cd ${WORKSPACE} "
+                } else {
+                    bat "dir /s ${WORKSPACE} "
+                    bat "cd ${WORKSPACE}"
+                }
+            }
+        }
+    }
     stage('preparation') {
       steps {
-          echo "${params.GIT_URL}"
-          echo "${params.GIT_JENKINS_CREDS}"
           echo "Get some code from an SCM"
           checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false,
             extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${params.GIT_JENKINS_CREDS}",
@@ -32,12 +45,12 @@ pipeline {
       post {
         always {
           echo "This will always run"
-        }
-        failure {
-          echo "This will run only if failed"
-        }
-        unstable {
-          echo "This will run only if the run was marked as unstable"
+          echo "${currentBuild.getCurrentResult()}"
+          if (fileExists("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")) {
+              echo 'report exists'
+          } else {
+              echo 'report do not exists'
+          }
         }
       }
       steps{
@@ -71,5 +84,10 @@ pipeline {
           generatePdfReport: true])
       }
     }
+    stage('Build') {
+         steps {
+             echo "Continue with your \'build\' step(s)..."
+         }
+      }
   }
 }
