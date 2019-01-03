@@ -3,7 +3,7 @@
 def call(String txt = null) {
   //echo "Hello, ${name}."
 
-  int high = 0
+  int highs = 0
   int mediums = 0
   int lows = 0
   int infos = 0
@@ -17,7 +17,7 @@ def call(String txt = null) {
       severityVal = result.@'Severity'
       switch(severityVal) {
         case "High":
-          high++
+          highs++
           break
         case "Medium"
           mediums++
@@ -33,5 +33,5 @@ def call(String txt = null) {
       }
     }
   }
-  [high: high, mediums: mediums, low: low, infos:infos]
+  [highs: highs, mediums: mediums, lows: lows, infos:infos]
 }

@@ -46,11 +46,15 @@ pipeline {
         always {
           script {
             echo "This will always run"
-            echo "${currentBuild.getCurrentResult()}"
-            if (fileExists("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")) {
+            echo "Current build result: ${currentBuild.getCurrentResult()}"
+            if ( fileExists("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml") ) {
                 echo 'report exists'
-            } else {
-                echo 'report do not exists'
+                def xmlTemplate = readFile("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")
+		            (high, mediums, lows, infos) = parseXMLReport(xmlTemplate)
+                println highs
+                println mediums
+                println lows
+                println infos
             }
           }
         }
