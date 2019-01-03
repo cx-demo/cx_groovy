@@ -16,8 +16,46 @@ JIRA Pipeline Steps
 
 ## Configuration
 
+1. In Jenkins, go to Manage Jenkins → Configure System. Under Global Pipeline Libraries, add a library with the following settings:
+
+- Name: pipeline-library-demo
+- Default version: Specify a Git reference (branch or commit SHA), e.g. master
+- Retrieval method: Modern SCM
+- Select the Git type
+- Project repository: https://github.com/monodot/pipeline-library-demo.git
+- Credentials: (leave blank)
+
+2. Then create a Jenkins job with the following pipeline (note that the underscore _ is not a typo):
+
+```groovy
+@Library('pipeline-library-demo')_
+
+stage('Demo') {
+  echo 'Hello World'
+  sayHello 'Dave'
+}
+```
+
+```groovy
+stage('JIRA') {
+    withEnv(['JIRA_SITE=LOCAL']) {
+      def testIssue = [fields: [ project: [id: '10300'],
+                                 summary: 'New JIRA Created from Jenkins.',
+                                 description: 'New JIRA Created from Jenkins.',
+                                 issuetype: [id: '10003']]]
+
+      response = jiraNewIssue issue: testIssue
+
+      echo response.successful.toString()
+      echo response.data.toString()
+    }
+  }
+```
+
 # References
 CxSAST Jenkins Plugin [[1]]  
+Jenkins Pipeline Jira Steps Plugin [[2]]  
 
 
 [1]:https://checkmarx.atlassian.net/wiki/spaces/KC/pages/11337790/CxSAST+Jenkins+Plugin "CxSAST Jenkins Plugin"
+[2]:https://jenkinsci.github.io/jira-steps-plugin/ "Jenkins Pipeline Jira Steps Plugin"
