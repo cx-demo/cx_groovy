@@ -44,12 +44,14 @@ pipeline {
     stage('checkmarx') {
       post {
         always {
-          echo "This will always run"
-          echo "${currentBuild.getCurrentResult()}"
-          if (fileExists("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")) {
-              echo 'report exists'
-          } else {
-              echo 'report do not exists'
+          script {
+            echo "This will always run"
+            echo "${currentBuild.getCurrentResult()}"
+            if (fileExists("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")) {
+                echo 'report exists'
+            } else {
+                echo 'report do not exists'
+            }
           }
         }
       }
