@@ -9,7 +9,10 @@ def call(String txt = null) {
   int infos = 0
 
 try {
-  def doc = new XmlSlurper(false, false).parseText(txt)
+  def parser = new XmlSlurper()
+  parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
+
+  def doc = parser.parseText(txt)
   echo 'Start transforming XML'
 
 
