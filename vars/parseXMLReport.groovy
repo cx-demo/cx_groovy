@@ -37,11 +37,11 @@ def call(String reportFileUrl = null) {
 
   }
 
-  print highs
-  print mediums
-  print lows
-  print infos
-  
+  echo highs
+  echo mediums
+  echo lows
+  echo infos
+
   return [highs: highs, mediums: mediums, lows: lows, infos:infos]
 
 }
