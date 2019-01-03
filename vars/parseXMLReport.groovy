@@ -9,7 +9,7 @@ def call(String txt = null) {
   int infos = 0
 
 try {
-  def doc = new XmlSlurper(false, false).parse(txt)
+  def doc = new XmlSlurper(false, false).parseText(txt)
   echo 'Start transforming XML'
 
 
