@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String txt = null) {
+def call(String reportFileUrl = null) {
   //echo "Hello, ${name}."
 
   int highs = 0
@@ -9,7 +9,8 @@ def call(String txt = null) {
   int infos = 0
 
 try {
-  def doc = new XmlSlurper(false, false, true).parseText(txt)
+  def xmlfile = new File(reportFileUrl);
+  def doc = new XmlSlurper(false, false, true).parse(xmlfile)
   echo 'Start transforming XML'
 
   //Get Scan Details (Results, Languages, Queries)

@@ -47,10 +47,11 @@ pipeline {
           script {
               echo "This will always run"
               echo "Current build result: ${currentBuild.getCurrentResult()}"
-              if ( fileExists("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml") ) {
+              def reportFileUrl = "${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml";
+              if ( fileExists(reportFileUrl) ) {
                   echo 'report exists'
-                  def report = readFile("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")
-                  (highs, mediums, lows, infos) = parseXMLReport(report)
+                  //def report = readFile("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml", "UTF-8")
+                  (highs, mediums, lows, infos) = parseXMLReport(reportFileUrl)
                   println(highs)
                   println(mediums)
                   println(lows)
