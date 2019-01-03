@@ -8,13 +8,15 @@ def call(String txt = null) {
   int lows = 0
   int infos = 0
 
-  def xmlNode = new XmlParser(false, false).parse(txt)
+  def doc = new XmlSlurper(false, false).parse(txt)
   echo 'Start transforming XML'
 
+
   //Get Scan Details (Results, Languages, Queries)
-  xmlNode.'Query'.each { query ->
-    query.'Result'.each { result ->
-      severityVal = result.@'Severity'
+  doc.Query.each { query ->
+    println "query index: ${query.@QueryPath}"
+    query.children().each { result ->
+      def severityVal = ${result.@Severity}
       switch(severityVal) {
         case "High":
           highs++
@@ -34,4 +36,5 @@ def call(String txt = null) {
     }
   }
   [highs: highs, mediums: mediums, lows: lows, infos:infos]
+
 }

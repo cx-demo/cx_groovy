@@ -49,8 +49,12 @@ pipeline {
               echo "Current build result: ${currentBuild.getCurrentResult()}"
               if ( fileExists("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml") ) {
                   echo 'report exists'
-                  def xmlTemplate = readFile("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")
-                  println xmlTemplate
+                  def report = readFile("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml")
+                  (highs, mediums, lows, infos) = parseXMLReport(report)
+                  println(highs)
+                  println(mediums)
+                  println(lows)
+                  println(infos)
               }
           }
         }
