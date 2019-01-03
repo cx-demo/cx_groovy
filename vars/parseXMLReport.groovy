@@ -8,11 +8,9 @@ def call(String reportFileUrl = null) {
   int lows = 0
   int infos = 0
 
-
   def xmlfile = new File(reportFileUrl);
   def doc = new XmlSlurper(false, false, true).parse(xmlfile)
   echo 'Start transforming XML'
-
 
   //Get Scan Details (Results, Languages, Queries)
   doc.Query.each { query ->
@@ -39,6 +37,11 @@ def call(String reportFileUrl = null) {
 
   }
 
+  print highs
+  print mediums
+  print lows
+  print infos
+  
   return [highs: highs, mediums: mediums, lows: lows, infos:infos]
 
 }
