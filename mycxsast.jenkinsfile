@@ -21,9 +21,7 @@ pipeline {
     stage('preparation') {
       steps {
         echo "Get some code from an SCM"
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']],
-          doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
-          userRemoteConfigs: [[credentialsId: '${params.GIT_JENKINS_CREDS}', url: '${params.GIT_URL}']]])
+        git changelog: false, credentialsId: '${params.GIT_JENKINS_CREDS}', poll: false, url: '${params.GIT_URL}'
       }
     }
     stage('checkmarx') {
