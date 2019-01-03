@@ -20,8 +20,10 @@ pipeline {
     }
     stage('preparation') {
       steps {
-        echo "Get some code from an SCM"
-        git changelog: false, credentialsId: '${params.GIT_JENKINS_CREDS}', poll: false, url: '${params.GIT_URL}'
+          echo "Get some code from an SCM"
+          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false,
+            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Bonobo.Git.Server',
+            url: 'http://localhost/Bonobo.Git.Server/BookStoreJava.git']]])
       }
     }
     stage('checkmarx') {
