@@ -15,6 +15,7 @@ def call(String txt = null) {
   //Get Scan Details (Results, Languages, Queries)
   doc.Query.each { query ->
     println "query index: ${query.@QueryPath}"
+    /*
     query.children().each { result ->
       def severityVal = ${result.@Severity}
       switch(severityVal) {
@@ -34,6 +35,7 @@ def call(String txt = null) {
         default:
       }
     }
+    */
   }
   [highs: highs, mediums: mediums, lows: lows, infos:infos]
 
