@@ -52,10 +52,46 @@ stage('JIRA') {
   }
 ```
 
+
+```groovy
+@Library('pipeline-library-demo') _
+
+pipeline {
+  agent any
+
+  stages{
+      stage('Hello') {
+          steps {
+            echo 'Hello World'
+            parseXMLReport 'Dave'
+          }
+      }
+      stage('JIRA') {
+          environment {
+              JIRA_SITE = 'LOCAL'
+          }
+          steps {
+              script {
+                def testIssue = [fields: [ project: [id: '10300'],
+                    summary: 'New JIRA Created from Jenkins.',
+                    description: 'New JIRA Created from Jenkins.',
+                    issuetype: [id: '10003']]]
+
+                response = jiraNewIssue issue: testIssue
+                echo response.successful.toString()
+                echo response.data.toString()      
+              }
+          }
+      }
+  }
+}
+```
+
 # References
 CxSAST Jenkins Plugin [[1]]  
 Jenkins Pipeline Jira Steps Plugin [[2]]  
-
+Extending with Shared Libraries [[3]]  
 
 [1]:https://checkmarx.atlassian.net/wiki/spaces/KC/pages/11337790/CxSAST+Jenkins+Plugin "CxSAST Jenkins Plugin"
 [2]:https://jenkinsci.github.io/jira-steps-plugin/ "Jenkins Pipeline Jira Steps Plugin"
+[3]:https://jenkins.io/doc/book/pipeline/shared-libraries/ "Extending with Shared Libraries"

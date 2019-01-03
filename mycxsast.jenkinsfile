@@ -1,0 +1,73 @@
+@Library('pipeline-library-demo') _
+
+pipeline {
+  agent any
+  environment {
+    CX_CREDS  = credentials('jenkins-checkmarx-cxsast-creds')
+  }
+  parameters {
+    string(name: 'CX_SERVER_URL', defaultValue: 'http://localhost', description: 'CxSAST URL')
+    string(name: 'CX_PROJECT_TEAM', defaultValue: 'CxServer', description: 'CxSAST Team')
+    string(name: 'CX_PROJECT_NAME', defaultValue: 'Bookstore_java@git', description: 'CxSAST Project name')
+    string(name: 'GIT_URL', defaultValue: 'http://localhost/Bonobo.Git.Server/BookStoreJava.git', description: 'GIT URL')
+    string(name: 'GIT_JENKINS_CREDS', defaultValue: 'Bonobo.Git.Server', description: 'GIT credentials in Jenkins Credentials')
+  }
+  stages {
+    stage('clean') {
+      steps {
+        deleteDir() /* Clean up our workspace */
+      }
+    }
+    stage('preparation') {
+      steps {
+        echo "Get some code from an SCM"
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+          doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
+          userRemoteConfigs: [[credentialsId: '${params.GIT_JENKINS_CREDS}', url: '${params.GIT_URL}']]])
+      }
+    }
+    stage('checkmarx') {
+      post {
+        always {
+          echo "This will always run"
+        }
+        failure {
+          echo "This will run only if failed"
+        }
+        unstable {
+          echo "This will run only if the run was marked as unstable"
+        }
+      }
+      steps{
+        echo "Executing Checkmarx Jenkins Plugin to request a Scan..."
+        step([$class: 'CxScanBuilder', comment: '', excludeFolders: '', excludeOpenSourceFolders: '', exclusionsSetting: 'job',
+          filterPattern: '''!**/_cvs/**/*, !**/.svn/**/*,   !**/.hg/**/*,   !**/.git/**/*,  !**/.bzr/**/*, !**/bin/**/*,
+            !**/obj/**/*,  !**/backup/**/*, !**/.idea/**/*, !**/*.DS_Store, !**/*.ipr,     !**/*.iws,
+            !**/*.bak,     !**/*.tmp,       !**/*.aac,      !**/*.aif,      !**/*.iff,     !**/*.m3u, !**/*.mid, !**/*.mp3,
+            !**/*.mpa,     !**/*.ra,        !**/*.wav,      !**/*.wma,      !**/*.3g2,     !**/*.3gp, !**/*.asf, !**/*.asx,
+            !**/*.avi,     !**/*.flv,       !**/*.mov,      !**/*.mp4,      !**/*.mpg,     !**/*.rm,  !**/*.swf, !**/*.vob,
+            !**/*.wmv,     !**/*.bmp,       !**/*.gif,      !**/*.jpg,      !**/*.png,     !**/*.psd, !**/*.tif, !**/*.swf,
+            !**/*.jar,     !**/*.zip,       !**/*.rar,      !**/*.exe,      !**/*.dll,     !**/*.pdb, !**/*.7z,  !**/*.gz,
+            !**/*.tar.gz,  !**/*.tar,       !**/*.gz,       !**/*.ahtm,     !**/*.ahtml,   !**/*.fhtml, !**/*.hdm,
+            !**/*.hdml,    !**/*.hsql,      !**/*.ht,       !**/*.hta,      !**/*.htc,     !**/*.htd, !**/*.war, !**/*.ear,
+            !**/*.htmls,   !**/*.ihtml,     !**/*.mht,      !**/*.mhtm,     !**/*.mhtml,   !**/*.ssi, !**/*.stm,
+            !**/*.stml,    !**/*.ttml,      !**/*.txn,      !**/*.xhtm,   !**/*.class, !**/*.iml, !Checkmarx/Reports/*.*''',
+          fullScanCycle: 10,
+          fullScansScheduled: true,
+          generatePdfReport: true,
+          groupId: '00000000-1111-1111-b111-989c9070eb11',
+          includeOpenSourceFolders: '',
+          osaEnabled: false,
+          username: '${CX_CREDS_USR}',
+          password: '${CX_CREDS_PSW}',
+          preset: '36',
+          projectName: '${params.CX_PROJECT_NAME}',
+          serverUrl: '${params.CX_SERVER_URL}',
+          sourceEncoding: '1',
+          waitForResultsEnabled: true,
+          vulnerabilityThresholdResult: 'FAILURE',
+          generatePdfReport: true])
+      }
+    }
+  }
+}
