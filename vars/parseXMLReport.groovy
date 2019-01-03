@@ -16,7 +16,7 @@ try {
   //Get Scan Details (Results, Languages, Queries)
   doc.Query.each { query ->
     println "query index: ${query.@QueryPath}"
-    /*
+
     query.children().each { result ->
       def severityVal = ${result.@Severity}
       switch(severityVal) {
@@ -36,7 +36,7 @@ try {
         default:
       }
     }
-    */
+
   }
 
 } catch(Exception ex) {
@@ -44,6 +44,6 @@ try {
   println(ex.getMessage());
   println(ex.getStackTrace());
 }
-  [highs: highs, mediums: mediums, lows: lows, infos:infos]
+  return [highs: highs, mediums: mediums, lows: lows, infos:infos]
 
 }
