@@ -20,10 +20,12 @@ pipeline {
     }
     stage('preparation') {
       steps {
+          echo ${params.GIT_URL}
+          echo ${params.GIT_JENKINS_CREDS}
           echo "Get some code from an SCM"
           checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false,
-            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Bonobo.Git.Server',
-            url: 'http://localhost/Bonobo.Git.Server/BookStoreJava.git']]])
+            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '${params.GIT_JENKINS_CREDS}',
+            url: '${params.GIT_URL}']]])
       }
     }
     stage('checkmarx') {
@@ -61,8 +63,8 @@ pipeline {
           username: '${CX_CREDS_USR}',
           password: '${CX_CREDS_PSW}',
           preset: '36',
-          projectName: '${params.CX_PROJECT_NAME}',
-          serverUrl: '${params.CX_SERVER_URL}',
+          projectName: ${params.CX_PROJECT_NAME},
+          serverUrl: ${params.CX_SERVER_URL},
           sourceEncoding: '1',
           waitForResultsEnabled: true,
           vulnerabilityThresholdResult: 'FAILURE',
