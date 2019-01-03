@@ -19,7 +19,8 @@ try {
     println "query index: ${query.@QueryPath}"
     query.Result.each { result ->
       println "severity index: ${result.@Severity}"
-      switch( ${result.@Severity} ) {
+      def severity = "${result.@Severity}"
+      switch(severity) {
         case "High":
           highs++
           break
