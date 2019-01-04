@@ -10,11 +10,11 @@ def call(String reportFileUrl = null) {
 
   //Get Scan Details (Results, Languages, Queries)
   doc.Query.each { query ->
-    echo "query index: ${query.@QueryPath}"
+    //echo "query index: ${query.@QueryPath}"
     query.Result.each { result ->
-      echo "severity index: ${result.@Severity}"
-      //def severity = "${result.@Severity}"
-
+      //echo "severity index: ${result.@Severity}"
+      def severity = "${result.@Severity}"
+      echo "${severity}"
 /*
 try{
       switch(severity) {
