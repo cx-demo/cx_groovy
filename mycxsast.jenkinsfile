@@ -42,25 +42,6 @@ pipeline {
       }
     }
     stage('checkmarx') {
-      post {
-        always {
-          script {
-              echo "This will always run"
-              echo "Current build result: ${currentBuild.getCurrentResult()}"
-              def reportFileUrl = "${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml";
-              if ( fileExists(reportFileUrl) ) {
-                  echo 'report exists'
-
-                  parseXMLReport(reportFileUrl)
-                  //def cxresults = parseXMLReport(reportFileUrl)
-                  //echo "highs: ${cxresults.highs}"
-                  //echo "mediums: ${cxresults.mediums}"
-                  //echo "lows: ${cxresults.lows}"
-                  //echo "infos: ${cxresults.infos}"
-              }
-          }
-        }
-      }
       steps{
         echo "Executing Checkmarx Jenkins Plugin to request a Scan..."
         step([$class: 'CxScanBuilder', comment: '', excludeFolders: '', excludeOpenSourceFolders: '', exclusionsSetting: 'job',
@@ -90,6 +71,25 @@ pipeline {
           waitForResultsEnabled: true,
           vulnerabilityThresholdResult: 'FAILURE',
           generatePdfReport: true])
+      }
+      post {
+        always {
+          script {
+              echo "This will always run"
+              echo "Current build result: ${currentBuild.getCurrentResult()}"
+              def reportFileUrl = "${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml";
+              if ( fileExists(reportFileUrl) ) {
+                  echo 'report exists'
+
+                  parseXMLReport(reportFileUrl)
+                  //def cxresults = parseXMLReport(reportFileUrl)
+                  //echo "highs: ${cxresults.highs}"
+                  //echo "mediums: ${cxresults.mediums}"
+                  //echo "lows: ${cxresults.lows}"
+                  //echo "infos: ${cxresults.infos}"
+              }
+          }
+        }
       }
     }
     stage('Build') {

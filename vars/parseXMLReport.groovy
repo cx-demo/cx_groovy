@@ -16,8 +16,7 @@ try{
     query.Result.each { result ->
       //echo "severity index: ${result.@Severity}"
       def severity = "${result.@Severity}"
-
-
+/*
       switch(severity) {
         case "High":
           result[highs]+=1
@@ -32,17 +31,13 @@ try{
           result[infos]+=1
           break
       }
-
+*/
 
     }
   }
 
   //return result
-  }catch (Exception e){
-
-      echo e.getMessage()
-      echo e.toString()
-      e.printStackTrace()
-
+  }catch (Exception ex){
+      println "Error ${e.toString()}"
   }
 }
