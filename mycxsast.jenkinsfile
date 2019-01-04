@@ -69,11 +69,14 @@ pipeline {
           serverUrl: "${params.CX_SERVER_URL}",
           sourceEncoding: '1',
           waitForResultsEnabled: true,
-          vulnerabilityThresholdResult: 'FAILURE',
+          vulnerabilityThresholdResult: 'UNSTABLE',
+          highThreshold: 1,
+          lowThreshold: 1,
+          mediumThreshold: 1,
           generatePdfReport: false])
       }
       post {
-        always {
+        unstable {
           script {
               echo "This will always run"
               echo "Current build result: ${currentBuild.getCurrentResult()}"
@@ -86,6 +89,16 @@ pipeline {
                   echo "mediums: ${cxresults.mediums}"
                   echo "lows: ${cxresults.lows}"
                   echo "infos: ${cxresults.infos}"
+
+                  def testIssue = [fields: [ project: [id: '10300'],
+                    summary: '[UNSTABLE] New CxScan Results exceeded threshold',
+                    description: "Results highs: ${cxresults.highs}, mediums: ${cxresults.mediums}, lows: ${cxresults.lows}, infos: ${cxresults.infos}",
+                    issuetype: [id: '10003']]]
+
+                  response = jiraNewIssue issue: testIssue
+
+                  echo response.successful.toString()
+                  echo response.data.toString()
               }
           }
         }
