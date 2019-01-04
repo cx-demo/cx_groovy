@@ -38,6 +38,6 @@ try{
 
   //return result
   }catch (Exception ex){
-      println "Error ${e.toString()}"
+      println "Error ${ex.toString()}"
   }
 }
