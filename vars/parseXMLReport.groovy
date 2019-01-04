@@ -2,7 +2,7 @@
 
 def call(String reportFileUrl = null) {
   echo "reportFileUrl ${reportFileUrl}"
-  //def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
+  def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
 
   def xmlfile = new File(reportFileUrl);
   def doc = new XmlSlurper(false, false, true).parse(xmlfile)
@@ -14,28 +14,26 @@ def call(String reportFileUrl = null) {
     query.Result.each { result ->
       //echo "severity index: ${result.@Severity}"
       def severity = "${result.@Severity}"
-      echo "${severity}"
-/*
+
 try{
       switch(severity) {
         case "High":
-          result[highs]++
+          result[highs]+=1
           break
         case "Medium":
-          result[mediums]++
+          result[mediums]+=1
           break
         case "Low":
-          result[lows]++
+          result[lows]+=1
           break
         case "Information":
-          result[infos]++
+          result[infos]+=1
           break
       }
 
 }catch (Exception e){
     println e.toString()
 }
-*/
     }
   }
 
