@@ -2,9 +2,7 @@
 
 pipeline {
   agent any
-  environment {
-    CX_CREDS  = credentials('jenkins-checkmarx-cxsast-creds')
-  }
+
   parameters {
     string(name: 'CX_SERVER_URL', defaultValue: 'http://localhost', description: 'CxSAST URL')
     string(name: 'CX_PROJECT_TEAM', defaultValue: 'CxServer', description: 'CxSAST Team')
@@ -42,6 +40,9 @@ pipeline {
       }
     }
     stage('checkmarx') {
+      environment {
+        CX_CREDS  = credentials('jenkins-checkmarx-cxsast-creds')
+      }
       steps{
         echo "Executing Checkmarx Jenkins Plugin to request a Scan..."
         step([$class: 'CxScanBuilder', comment: '', excludeFolders: '', excludeOpenSourceFolders: '', exclusionsSetting: 'job',
@@ -91,24 +92,26 @@ pipeline {
                   echo "lows: ${cxresults.lows}"
                   echo "infos: ${cxresults.infos}"
 
-                  def testIssue = [fields: [ project: [id: '10300'],
-                    summary: '[UNSTABLE] New CxScan Results exceeded threshold',
-                    description: "Results highs: ${cxresults.highs}, mediums: ${cxresults.mediums}, lows: ${cxresults.lows}, infos: ${cxresults.infos}",
-                    issuetype: [id: '10003']]]
+                  withEnv(['JIRA_SITE=LOCAL']) {
+                    def testIssue = [fields: [ project: [id: '10300'],
+                      summary: '[UNSTABLE] New CxScan Results exceeded threshold',
+                      description: "Results highs: ${cxresults.highs}, mediums: ${cxresults.mediums}, lows: ${cxresults.lows}, infos: ${cxresults.infos}",
+                      issuetype: [id: '10003']]]
 
-                  response = jiraNewIssue issue: testIssue
+                      response = jiraNewIssue issue: testIssue
 
-                  echo response.successful.toString()
-                  echo response.data.toString()
+                      echo response.successful.toString()
+                      echo response.data.toString()
+                  }
               }
           }
         }
-      }
     }
-    stage('Build') {
-         steps {
-             echo "Continue with your \'build\' step(s)..."
-         }
+  }
+  stage('Build') {
+    steps {
+      echo "Continue with your \'build\' step(s)..."
       }
+  }
   }
 }
