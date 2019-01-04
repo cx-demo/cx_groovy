@@ -70,7 +70,7 @@ pipeline {
           sourceEncoding: '1',
           waitForResultsEnabled: true,
           vulnerabilityThresholdResult: 'FAILURE',
-          generatePdfReport: true])
+          generatePdfReport: false])
       }
       post {
         always {

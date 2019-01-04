@@ -1,10 +1,11 @@
 #!/usr/bin/env groovy
 
 def call(String reportFileUrl = null) {
+try{
   echo "reportFileUrl ${reportFileUrl}"
 
-try{
-  def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
+
+  def resultmap = [:]
 
   //assert result['highs'] == 0
 
