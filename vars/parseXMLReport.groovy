@@ -14,7 +14,7 @@ def call(String reportFileUrl = null) {
     //println "query index: ${query.@QueryPath}"
     query.Result.each { result ->
       println "severity index: ${result.@Severity}"
-      def severity = "${result.@Severity}"
+      //def severity = "${result.@Severity}"
 
 /*
 try{
