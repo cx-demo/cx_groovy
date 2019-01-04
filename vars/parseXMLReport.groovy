@@ -1,8 +1,7 @@
 #!/usr/bin/env groovy
 
 def call(String reportFileUrl = null) {
-  //echo "Hello, ${name}."
-
+  echo "reportFileUrl ${reportFileUrl}"
   //def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
 
   def xmlfile = new File(reportFileUrl);
@@ -34,7 +33,7 @@ try{
       }
 
 }catch (Exception e){
-    println e.toString();
+    println e.toString()
 }
 */
     }
