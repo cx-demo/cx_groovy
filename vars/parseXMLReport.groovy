@@ -3,14 +3,11 @@
 def call(String reportFileUrl = null) {
   //echo "Hello, ${name}."
 
-  int highs = 0
-  int mediums = 0
-  int lows = 0
-  int infos = 0
+  def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
 
   def xmlfile = new File(reportFileUrl);
   def doc = new XmlSlurper(false, false, true).parse(xmlfile)
-  echo 'Start transforming XML'
+  //echo 'Start transforming XML'
 
   //Get Scan Details (Results, Languages, Queries)
   doc.Query.each { query ->
@@ -21,27 +18,22 @@ def call(String reportFileUrl = null) {
 
       switch(severity) {
         case "High":
-          highs++
+          result[highs]++
           break
         case "Medium":
-          mediums++
+          result[mediums]++
           break
         case "Low":
-          lows++
+          result[lows]++
           break
         case "Information":
-          infos++
+          result[infos]++
           break
       }
     }
 
   }
 
-  echo highs
-  echo mediums
-  echo lows
-  echo infos
-
-  return [highs: highs, mediums: mediums, lows: lows, infos:infos]
+  return result
 
 }
