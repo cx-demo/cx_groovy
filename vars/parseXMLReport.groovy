@@ -2,6 +2,8 @@
 
 def call(String reportFileUrl = null) {
   echo "reportFileUrl ${reportFileUrl}"
+
+try{
   def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
 
   def xmlfile = new File(reportFileUrl);
@@ -15,7 +17,7 @@ def call(String reportFileUrl = null) {
       //echo "severity index: ${result.@Severity}"
       def severity = "${result.@Severity}"
 
-try{
+
       switch(severity) {
         case "High":
           result[highs]+=1
@@ -31,12 +33,16 @@ try{
           break
       }
 
-}catch (Exception e){
-    println e.toString()
-}
+
     }
   }
 
   //return result
+  }catch (Exception e){
 
+      echo e.getMessage()
+      echo e.toString()
+      e.printStackTrace()
+
+  }
 }
