@@ -13,9 +13,11 @@ def call(String reportFileUrl = null) {
   doc.Query.each { query ->
     //println "query index: ${query.@QueryPath}"
     query.Result.each { result ->
-      //println "severity index: ${result.@Severity}"
+      println "severity index: ${result.@Severity}"
       def severity = "${result.@Severity}"
 
+/*
+try{
       switch(severity) {
         case "High":
           result[highs]++
@@ -30,8 +32,12 @@ def call(String reportFileUrl = null) {
           result[infos]++
           break
       }
-    }
 
+}catch (Exception e){
+    println e.toString();
+}
+*/
+    }
   }
 
   return result
