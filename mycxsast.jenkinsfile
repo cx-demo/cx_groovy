@@ -81,12 +81,11 @@ pipeline {
               if ( fileExists(reportFileUrl) ) {
                   echo 'report exists'
 
-                  parseXMLReport(reportFileUrl)
-                  //def cxresults = parseXMLReport(reportFileUrl)
-                  //echo "highs: ${cxresults.highs}"
-                  //echo "mediums: ${cxresults.mediums}"
-                  //echo "lows: ${cxresults.lows}"
-                  //echo "infos: ${cxresults.infos}"
+                  def cxresults = parseXMLReport(reportFileUrl)
+                  echo "highs: ${cxresults.highs}"
+                  echo "mediums: ${cxresults.mediums}"
+                  echo "lows: ${cxresults.lows}"
+                  echo "infos: ${cxresults.infos}"
               }
           }
         }
