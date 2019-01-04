@@ -69,6 +69,7 @@ pipeline {
           serverUrl: "${params.CX_SERVER_URL}",
           sourceEncoding: '1',
           waitForResultsEnabled: true,
+          vulnerabilityThresholdEnabled: true,
           vulnerabilityThresholdResult: 'UNSTABLE',
           highThreshold: 1,
           lowThreshold: 1,
