@@ -112,7 +112,7 @@ stage('checkmarx') {
 @Library('pipeline-library-demo')_
 ```
 
-9. Add a post 'unstable' step after the CxSAST as follows 
+9. Add a post 'unstable' step after the CxSAST as follows
 
 ```groovy
 steps{
@@ -157,7 +157,7 @@ post{
 CxSAST Jenkins Plugin [[1]]  
 Jenkins Pipeline Jira Steps Plugin [[2]]  
 Extending with Shared Libraries [[3]]  
-JIRA Steps: Create New Issues [[4]]
+JIRA Steps: Create New Issues [[4]]  
 Configuring a CxSAST Scan Action using Jenkins Pipeline [[5]]
 
 
