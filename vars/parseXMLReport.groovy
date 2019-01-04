@@ -3,7 +3,7 @@
 def call(String reportFileUrl = null) {
   //echo "Hello, ${name}."
 
-  def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
+  //def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
 
   def xmlfile = new File(reportFileUrl);
   def doc = new XmlSlurper(false, false, true).parse(xmlfile)
@@ -11,9 +11,9 @@ def call(String reportFileUrl = null) {
 
   //Get Scan Details (Results, Languages, Queries)
   doc.Query.each { query ->
-    //println "query index: ${query.@QueryPath}"
+    echo "query index: ${query.@QueryPath}"
     query.Result.each { result ->
-      //println "severity index: ${result.@Severity}"
+      echo "severity index: ${result.@Severity}"
       //def severity = "${result.@Severity}"
 
 /*
@@ -40,6 +40,6 @@ try{
     }
   }
 
-  return result
+  //return result
 
 }
