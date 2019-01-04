@@ -4,7 +4,7 @@ def call(String reportFileUrl = null) {
   echo "reportFileUrl ${reportFileUrl}"
 
 try{
-  //def result = ['highs': 0, 'mediums': 0, 'lows': 0, 'infos': 0]
+  def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
 
   //assert result['highs'] == 0
 
