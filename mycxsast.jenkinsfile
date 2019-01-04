@@ -52,10 +52,10 @@ pipeline {
                   echo 'report exists'
                   //def report = readFile("${env.WORKSPACE}/Checkmarx/Reports/ScanReport.xml", "UTF-8")
                   def cxresults = parseXMLReport(reportFileUrl)
-                  echo "highs: ${cxresults.highs}"
-                  echo "mediums: ${cxresults.mediums}"
-                  echo "lows: ${cxresults.lows}"
-                  echo "infos: ${cxresults.infos}"
+                  //echo "highs: ${cxresults.highs}"
+                  //echo "mediums: ${cxresults.mediums}"
+                  //echo "lows: ${cxresults.lows}"
+                  //echo "infos: ${cxresults.infos}"
               }
           }
         }
