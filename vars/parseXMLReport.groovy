@@ -6,6 +6,8 @@ def call(String reportFileUrl = null) {
 try{
   def result = [highs: 0, mediums: 0, lows: 0, infos: 0]
 
+  assert result['highs'] == 0
+
   def xmlfile = new File(reportFileUrl);
   def doc = new XmlSlurper(false, false, true).parse(xmlfile)
   //echo 'Start transforming XML'
