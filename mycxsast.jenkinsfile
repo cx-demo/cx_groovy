@@ -36,8 +36,8 @@ pipeline {
           echo "Get some code from an SCM"
           echo "[${params.GIT_URL}][${params.GIT_JENKINS_CREDS}]"
           checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false,
-            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '${params.GIT_JENKINS_CREDS}',
-            url: '${params.GIT_URL}']]])
+            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${params.GIT_JENKINS_CREDS}",
+            url: "${params.GIT_URL}"]]])
       }
     }
     stage('checkmarx') {
