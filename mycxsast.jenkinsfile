@@ -7,8 +7,8 @@ pipeline {
     string(name: 'CX_SERVER_URL', defaultValue: 'http://localhost', description: 'CxSAST URL')
     string(name: 'CX_PROJECT_TEAM', defaultValue: 'CxServer', description: 'CxSAST Team')
     string(name: 'CX_PROJECT_NAME', defaultValue: 'Bookstore_java@git', description: 'CxSAST Project name')
-    string(name: 'GIT_URL', defaultValue: 'http://localhost/Bonobo.Git.Server/BookStoreJava.git', description: 'GIT URL')
-    string(name: 'GIT_JENKINS_CREDS', defaultValue: 'Bonobo.Git.Server', description: 'GIT credentials in Jenkins Credentials')
+    string(name: 'SCM_URL', defaultValue: 'http://localhost/Bonobo.Git.Server/BookStoreJava.git', description: 'GIT URL')
+    string(name: 'SCM_JENKINS_CREDS', defaultValue: 'Bonobo.Git.Server', description: 'GIT credentials in Jenkins Credentials')
   }
   stages {
     stage('clean') {
@@ -35,8 +35,8 @@ pipeline {
       steps {
           echo "Get some code from an SCM"
           checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false,
-            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${params.GIT_JENKINS_CREDS}",
-            url: "${params.GIT_URL}"]]])
+            extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${params.SCM_JENKINS_CREDS}",
+            url: "${params.SCM_URL}"]]])
       }
     }
     stage('checkmarx') {
