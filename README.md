@@ -130,9 +130,9 @@ stage('checkmarx') {
 9. Add a post 'unstable' step after the CxSAST as follows
 
   Note: the following fields should be changed accordingly in the script.
-  - [Jira Site](#JiraSiteName) - See [withEnv:JIRA_SITE](#L157)
-  - [ProjectId](#ProjectId) - See [issuetype:id](#L158)
-  - [IssueTypeId](#IssueTypeId) - See [issuetype:id](#L161)
+  - [Jira Site](#JiraSiteName) - See [withEnv:JIRA_SITE](README.md#L157)
+  - [ProjectId](#ProjectId) - See [issuetype:id](README.md#L158)
+  - [IssueTypeId](#IssueTypeId) - See [issuetype:id](README.md#L161)
 
 ```groovy
 steps{
