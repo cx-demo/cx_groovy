@@ -23,7 +23,7 @@ Note that the sample given is based on Declarative Pipeline but it will work for
 
 ### Install the JIRA Pipeline plugin
 1. Follow the instructions in [[2]] to install the plugin in Jenkins
-2. In Jenkins, add a JIRA site in <i>Manage Jenkins → Configure System → JIRA Steps → JIRA sites<i>
+2. In Jenkins, add a JIRA site in <i>Manage Jenkins → Configure System → JIRA Steps → JIRA sites</i>
   - <a name="JiraSiteName"></a>Name: Jira site name e.g., LOCAL, will be available in the Jenkins environment as 'JIRA_SITE'
   - URL: Jira instance URL e.g., http://localhost:8084
   - Connection Timeout: (leave default)
@@ -130,9 +130,9 @@ stage('checkmarx') {
 9. Add a post 'unstable' step after the CxSAST as follows
 
   Note: the following fields should be changed accordingly in the script.
-  - [Jira Site](#JiraSiteName) - See [withEnv:JIRA_SITE](README.md#L157)
-  - [ProjectId](#ProjectId) - See [issuetype:id](README.md#L158)
-  - [IssueTypeId](#IssueTypeId) - See [issuetype:id](README.md#L161)
+  - [Jira Site](#JiraSiteName) - See withEnv:JIRA_SITE
+  - [ProjectId](#ProjectId) - See fields:project:id
+  - [IssueTypeId](#IssueTypeId) - See fields:issuetype:id
 
 ```groovy
 steps{
