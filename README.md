@@ -1,6 +1,6 @@
 # Jenkins Pipeline to push JIRA ticket with SAST findings
 * Author:   Pedric Kng  
-* Updated:  04 Jan 2019
+* Updated:  02 April 2019
 
 This article describes the steps to capture the SAST findings as part of the Jenkins Pipeline and manage the risk via JIRA.
 
@@ -23,19 +23,34 @@ Note that the sample given is based on Declarative Pipeline but it will work for
 
 ### Install the JIRA Pipeline plugin
 1. Follow the instructions in [[2]] to install the plugin in Jenkins
-2. In Jenkins, add a JIRA site in Manage Jenkins → Configure System → JIRA Steps → JIRA sites
-  - Name*: Jira site name e.g., LOCAL, will be available in the Jenkins environment as 'JIRA_SITE'
+2. In Jenkins, add a JIRA site in <i>Manage Jenkins → Configure System → JIRA Steps → JIRA sites<i>
+  - <a name="JiraSiteName"></a>Name: Jira site name e.g., LOCAL, will be available in the Jenkins environment as 'JIRA_SITE'
   - URL: Jira instance URL e.g., http://localhost:8084
   - Connection Timeout: (leave default)
   - Read Timeout: (leave default)
   - Login Type: (credential to login to JIRA instance e.g., username/password or OAuth)
+
+  ![alt text](resources/JenkinsJiraSite.PNG "Jenkins Jira Site")
+
+
+3. Please note down the following JIRA fields, these is to be configured in the Jenkins Pipeline script later;
+  - <a name="ProjectId"></a>Jira Project Id: Id of Jira project e.g., 10300
+
+    <i>JIRA Dashboard → Administration → [project] → project settings → Details</i>
+    ![alt text](resources/JiraProjectId.PNG "Jira Project Id")
+
+  - <a name="IssueTypeId"></a>Jira Issuetype Id: Id of Issuetype in JIRA project to create the issue e.g., 10003
+
+    <i>JIRA Dashboard → Administration → [project] → project settings → Issue Types → [Issue Type]</i>
+    ![alt text](resources/JiraIssueTypeId.PNG "Jira Issuetype Id")
+
 
 ### Checkmarx CxSAST Plugin
 3. Follow the instructions[[1]] to install and configure the Checkmarx Jenkins plugin respectively
 
 
 ### Add Shared Library in Jenkins
-4. In Jenkins, go to Manage Jenkins → Configure System. Under Global Pipeline Libraries, add a library with the following settings:
+4. In Jenkins, go to <i>Manage Jenkins → Configure System</i>. Under Global Pipeline Libraries, add a library with the following settings:
   - Name: pipeline-library-demo
   - Default version: Specify a Git reference (branch or commit SHA), e.g. master
   - Retrieval method: Modern SCM
@@ -46,7 +61,7 @@ Note that the sample given is based on Declarative Pipeline but it will work for
 The shared library [cx_groovy](vars/parseXMLReport.md) used in this tutorial will parse the Checkmarx XML report and return a Map containing results by severity; High, Medium, Low, Information
 
 ### Add job to Jenkins Pipeline
-5. Add your Checkmarx CxSAST credential to the Jenkins credentials manager. In Jenkins, go to Credential → System  → Global credentials → Add credentials.  
+5. Add your Checkmarx CxSAST credential to the Jenkins credentials manager. In Jenkins, go to <i>Credential → System  → Global credentials → Add credentials</i>.  
   - Kind: Username with password
   - Scope:  (as required)
   - Username: CxSAST login username
@@ -114,6 +129,11 @@ stage('checkmarx') {
 
 9. Add a post 'unstable' step after the CxSAST as follows
 
+  Note: the following fields should be changed accordingly in the script.
+  - [Jira Site](#JiraSiteName) - See [withEnv:JIRA_SITE](#L157)
+  - [ProjectId](#ProjectId) - See [issuetype:id](#L158)
+  - [IssueTypeId](#IssueTypeId) - See [issuetype:id](#L161)
+
 ```groovy
 steps{
   echo "Executing Checkmarx Jenkins Plugin to request a Scan..."
@@ -149,6 +169,8 @@ post{
     }
 }
 ```
+
+
 
 [Sample Jenkins Pipeline](mycxsast.jenkinsfile)
 
