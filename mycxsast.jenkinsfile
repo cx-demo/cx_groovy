@@ -61,6 +61,7 @@ pipeline {
           fullScanCycle: 10,
           fullScansScheduled: true,
           generatePdfReport: true,
+          generateXmlReport: true,
           groupId: '00000000-1111-1111-b111-989c9070eb11',
           includeOpenSourceFolders: '',
           osaEnabled: false,
